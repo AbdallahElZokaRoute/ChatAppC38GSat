@@ -1,4 +1,4 @@
-package com.route.chatappc38gsat.ui.theme
+package com.route.chatappc38gsat.splash.ui.theme
 
 import android.app.Activity
 import android.os.Build

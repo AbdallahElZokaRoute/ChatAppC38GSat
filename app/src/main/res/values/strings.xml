@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">ChatAppC38GSat</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="register">Register</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="login">Login</string>
+    <string name="title_activity_add_room">AddRoomActivity</string>
+    <string name="home">Home</string>
+    <string name="add_room">Add Room</string>
 </resources>

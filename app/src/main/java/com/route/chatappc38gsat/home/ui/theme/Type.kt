@@ -1,4 +1,4 @@
-package com.route.chatappc38gsat.ui.theme
+package com.route.chatappc38gsat.home.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

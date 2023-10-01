@@ -16,30 +16,48 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.route.chatappc38gsat.R
+import com.route.chatappc38gsat.home.HomeActivity
+import com.route.chatappc38gsat.login.LoginActivity
 import com.route.chatappc38gsat.register.RegisterActivity
-import com.route.chatappc38gsat.ui.theme.ChatAppC38GSatTheme
 
-class SplashActivity : ComponentActivity() {
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.route.chatappc38gsat.splash.ui.theme.ChatAppC38GSatTheme
+
+class SplashActivity : ComponentActivity(), Navigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ChatAppC38GSatTheme {
                 // A surface container using the 'background' color from the theme
-                Handler(Looper.getMainLooper()).postDelayed(
-                    {
-                        val intent = Intent(this, RegisterActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }, 2000
-                )
-                SplashContent()
+//                Handler(Looper.getMainLooper()).postDelayed(
+//                    {
+//                        val intent = Intent(this, LoginActivity::class.java)
+//                        startActivity(intent)
+//                        finish()
+//                    }, 2000
+//                )
+                SplashContent(navigator = this)
             }
         }
+    }
+
+    override fun navigateToHome() {
+        val intent = Intent(this@SplashActivity, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun navigateToLogin() {
+        val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
 
 @Composable
-fun SplashContent() {
+fun SplashContent(viewModel: SplashViewModel = viewModel(), navigator: Navigator) {
+    viewModel.navigator = navigator
+    viewModel.navigate()
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (logo, signature) = createRefs()
         Image(
@@ -72,6 +90,15 @@ fun SplashContent() {
 @Composable
 fun GreetingPreview() {
     ChatAppC38GSatTheme {
-        SplashContent()
+        SplashContent(navigator = object : Navigator {
+            override fun navigateToHome() {
+
+            }
+
+            override fun navigateToLogin() {
+
+            }
+
+        })
     }
 }

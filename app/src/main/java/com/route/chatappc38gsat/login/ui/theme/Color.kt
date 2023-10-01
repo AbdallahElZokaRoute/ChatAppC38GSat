@@ -1,4 +1,4 @@
-package com.route.chatappc38gsat.ui.theme
+package com.route.chatappc38gsat.login.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
