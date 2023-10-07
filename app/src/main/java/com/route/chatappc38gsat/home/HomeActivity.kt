@@ -15,14 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,7 +39,9 @@ import com.route.chatappc38gsat.R
 import com.route.chatappc38gsat.addRoom.AddRoomActivity
 import com.route.chatappc38gsat.home.ui.theme.ChatAppC38GSatTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.route.chatappc38gsat.chat.ChatActivity
 import com.route.chatappc38gsat.model.Category
+import com.route.chatappc38gsat.model.Constants
 import com.route.chatappc38gsat.model.Room
 
 class HomeActivity : ComponentActivity(), Navigator {
@@ -58,6 +57,12 @@ class HomeActivity : ComponentActivity(), Navigator {
 
     override fun navigateToAddRoom() {
         val intent = Intent(this@HomeActivity, AddRoomActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun navigateToChatActivity(room: Room) {
+        val intent = Intent(this@HomeActivity, ChatActivity::class.java)
+        intent.putExtra(Constants.EXTRA_ROOM, room)
         startActivity(intent)
     }
 }
@@ -97,27 +102,36 @@ fun HomeContent(viewModel: HomeViewModel = viewModel(), navigator: Navigator) {
                 )
                 .padding(top = it.calculateTopPadding())
         ) {
-            ChatRooms()
+            ChatRooms(navigator = navigator)
         }
     }
 }
 
 @Composable
-fun ChatRooms(viewModel: HomeViewModel = viewModel()) {
+fun ChatRooms(viewModel: HomeViewModel = viewModel(), navigator: Navigator) {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
         items(viewModel.roomListState.value.size) {
             val item = viewModel.roomListState.value.get(it)
-            ChatRoomCard(room = item)
+            ChatRoomCard(room = item, navigator = navigator)
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatRoomCard(room: Room) {
+fun ChatRoomCard(
+    room: Room,
+    viewModel: HomeViewModel = viewModel(),
+    navigator: Navigator
+) {
+    viewModel.navigator = navigator
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(8.dp),
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+        onClick = {
+            viewModel.navigateToChatScreen(room)
+        }
     ) {
         Image(
             painter = painterResource(
@@ -143,6 +157,10 @@ fun GreetingPreview3() {
     ChatAppC38GSatTheme {
         HomeContent(navigator = object : Navigator {
             override fun navigateToAddRoom() {
+
+            }
+
+            override fun navigateToChatActivity(room: Room) {
 
             }
         })

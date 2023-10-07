@@ -17,6 +17,10 @@ class HomeViewModel : ViewModel() {
         })
     }
 
+    fun navigateToChatScreen(room: Room) {
+        navigator?.navigateToChatActivity(room)
+    }
+
     fun navigateToAddRoomScreen() {
         navigator?.navigateToAddRoom()
     }

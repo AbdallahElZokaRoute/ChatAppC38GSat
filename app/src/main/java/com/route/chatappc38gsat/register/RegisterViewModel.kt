@@ -9,12 +9,9 @@ import com.google.firebase.ktx.Firebase
 import com.route.chatappc38gsat.base.BaseViewModel
 import com.route.chatappc38gsat.model.AppUser
 import com.route.chatappc38gsat.database.addUserToFirestoreDB
+import com.route.chatappc38gsat.model.DataUtils
 
 class RegisterViewModel : BaseViewModel<Navigator>() {
-
-    init {
-        Log.e("Hello", "World")
-    }
 
     val firstNameState = mutableStateOf("")
     val firstNameErrorState = mutableStateOf("")
@@ -69,6 +66,7 @@ class RegisterViewModel : BaseViewModel<Navigator>() {
         addUserToFirestoreDB(user, onSuccessListener = {
             isLoadingState.value = false
             // Navigate To Home Screen
+            DataUtils.appUser = user
             navigator?.navigateToHomeScreen()
         }, onFailureListener = {
             isLoadingState.value = false

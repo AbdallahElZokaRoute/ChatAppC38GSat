@@ -2,10 +2,13 @@ package com.route.chatappc38gsat.login
 
 import androidx.compose.runtime.mutableStateOf
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 import com.route.chatappc38gsat.base.BaseViewModel
 import com.route.chatappc38gsat.database.getUserFromFirestoreDB
+import com.route.chatappc38gsat.model.AppUser
+import com.route.chatappc38gsat.model.DataUtils
 
 class LoginViewModel : BaseViewModel<Navigator>() {
     val emailState = mutableStateOf("")
@@ -24,6 +27,7 @@ class LoginViewModel : BaseViewModel<Navigator>() {
                         isLoadingState.value = true
                         getUserFromFirestoreDB(userUID!!, onSuccessListener = {
                             isLoadingState.value = false
+                            DataUtils.appUser = it.toObject(AppUser::class.java)
                             navigator?.navigateToHome()
                         }, onFailureListener = {
                             isLoadingState.value = false
